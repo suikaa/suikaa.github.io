@@ -17,17 +17,22 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Lucky&#39;s blog</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Lucky&#39;s blog">
-<meta property="og:url" content="https://suikaa.github.io/index.html">
+  <title>快速搭建个人博客 | Lucky&#39;s blog</title>
+  <meta name="description" content="本文旨在介绍利用hexo框架和GitHub快速实现一个博客搭建与上线的主要步骤。 1. 搭建本地博客Hexo是基于node.js的一个快速、简单、有效的博客框架，自2012年官方发布0.0.1版本至今，一直保持维护更新。Hexo官方文档明了且支持中文，拥有300+插件——几乎涵盖所有常用的博客功能，并且拥有300+主题——可以快速配置个性化博客。 1.1 安装环境 安装 node 安装 git 安">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速搭建个人博客">
+<meta property="og:url" content="https://suikaa.github.io/2021/03/17/build-personal-blog-one/index.html">
 <meta property="og:site_name" content="Lucky&#39;s blog">
+<meta property="og:description" content="本文旨在介绍利用hexo框架和GitHub快速实现一个博客搭建与上线的主要步骤。 1. 搭建本地博客Hexo是基于node.js的一个快速、简单、有效的博客框架，自2012年官方发布0.0.1版本至今，一直保持维护更新。Hexo官方文档明了且支持中文，拥有300+插件——几乎涵盖所有常用的博客功能，并且拥有300+主题——可以快速配置个性化博客。 1.1 安装环境 安装 node 安装 git 安">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-17T09:45:04.923Z">
+<meta property="article:modified_time" content="2021-03-19T02:11:49.132Z">
 <meta property="article:author" content="Liu Chang">
-<meta property="article:tag" content="font-end,html,css,javascript,ecmascript,vue,git,webpack">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="github">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://suikaa.github.io/index.html">
+  <link rel="canonical" href="https://suikaa.github.io/2021/03/17/build-personal-blog-one/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Lucky&#39;s blog" type="application/atom+xml">
   
@@ -167,18 +172,17 @@
 </aside>
 
   
-  <main class="main" role="main">
   
-  
-    <div class="content">
+<main class="main" role="main">
+  <div class="content">
   <article id="post-build-personal-blog-one" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/17/build-personal-blog-one/">快速搭建个人博客</a>
+    <h1 class="article-title" itemprop="name">
+      快速搭建个人博客
     </h1>
   
 
@@ -297,12 +301,33 @@
 
     </div>
   </article>
-  <!--  -->
+  <!-- 
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+   -->
 </div>
 
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
   
 
-   
+
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -354,6 +379,33 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 
