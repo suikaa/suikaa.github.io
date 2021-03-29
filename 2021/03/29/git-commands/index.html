@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>git常用命令总结 | Lucky&#39;s blog</title>
+  <meta name="description" content="一、新建仓库以GitHub作为远程仓库为例. git init在新建项目的目录下执行git init，即可将该目录初始化为一个git仓库。 git remote关联远程仓库，首先需要在设置中添加个人的SSH key。Mac的SSH key生成方式如下，详细配置方法见GitHub帮助文档。 1$ ssh-keygen -t rsa -C &quot;youremail@example.com&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git常用命令总结">
+<meta property="og:url" content="https://suikaa.github.io/2021/03/29/git-commands/index.html">
+<meta property="og:site_name" content="Lucky&#39;s blog">
+<meta property="og:description" content="一、新建仓库以GitHub作为远程仓库为例. git init在新建项目的目录下执行git init，即可将该目录初始化为一个git仓库。 git remote关联远程仓库，首先需要在设置中添加个人的SSH key。Mac的SSH key生成方式如下，详细配置方法见GitHub帮助文档。 1$ ssh-keygen -t rsa -C &quot;youremail@example.com&amp;quo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-29T03:33:32.319Z">
+<meta property="article:modified_time" content="2021-03-29T09:03:20.312Z">
+<meta property="article:author" content="Liu Chang">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://suikaa.github.io/2021/03/29/git-commands/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Lucky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/suikaa" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Lucky</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/GitHub/" style="font-size: 14px;">GitHub</a> <a href="/tags/git/" style="font-size: 13px;">git</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-git-commands" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      git常用命令总结
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/03/29/git-commands/" class="article-date">
+	  <time datetime="2021-03-29T03:33:32.319Z" itemprop="datePublished">2021-03-29</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/GitHub/" rel="tag">GitHub</a>, <a class="article-tag-link-link" href="/tags/git/" rel="tag">git</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <!-- <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/03/29/git-commands/#comments" class="article-comment-link">评论</a></span> -->
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.7k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 6(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="一、新建仓库"><a href="#一、新建仓库" class="headerlink" title="一、新建仓库"></a>一、新建仓库</h2><p>以GitHub作为远程仓库为例.</p>
+<h4 id="git-init"><a href="#git-init" class="headerlink" title="git init"></a>git init</h4><p>在新建项目的目录下执行<code>git init</code>，即可将该目录初始化为一个git仓库。</p>
+<h4 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h4><p>关联远程仓库，首先需要在<a target="_blank" rel="noopener" href="https://github.com/settings/keys">设置</a>中添加个人的SSH key。<br>Mac的SSH key生成方式如下，详细配置方法见<a target="_blank" rel="noopener" href="https://docs.github.com/cn/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">GitHub帮助文档</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span></span><br></pre></td></tr></table></figure>
+<p>完成SSH key设置后，通过如下命名实现本地与远程仓库的关联。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin git@github.com:&lt;user&gt;/&lt;store&gt;.git</span><br><span class="line"><span class="comment"># 一般仓库名默认用origin，主分支名用master</span></span><br></pre></td></tr></table></figure>
+<h4 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h4><p>远程仓库已创建的情况下，可以从远程仓库拷贝代码到本地，此时会自动创建本地与远程的关联。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> &lt;SSH下的地址&gt; [project-name]</span><br><span class="line"><span class="comment"># project-name可省略，此时本地创建的仓库名默认与远程仓库相同</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="二、将本地变更内容推送到远程仓库"><a href="#二、将本地变更内容推送到远程仓库" class="headerlink" title="二、将本地变更内容推送到远程仓库"></a>二、将本地变更内容推送到远程仓库</h2><p>变更推送需要经历四个过程：</p>
+<ol>
+<li>保存工作区（项目在本地的文件夹）的变更</li>
+<li>将变更提交到暂存区 —— git add</li>
+<li>将暂存区的所有内容提交到git库生成版本号 —— git commit</li>
+<li>将本地分支的变更提交到远程仓库的对应分支 —— git push</li>
+</ol>
+<h4 id="git-status"><a href="#git-status" class="headerlink" title="git status"></a>git status</h4><p>查看文件状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">On branch master <span class="comment"># 当前所在分支</span></span><br><span class="line">Changes not staged <span class="keyword">for</span> commit: <span class="comment"># 未提交到暂存区的工作区有变更的文件列表</span></span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">&quot;git restore &lt;file&gt;...&quot;</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line">        modified:   path/file.vue  <span class="comment"># 有变更的文件</span></span><br><span class="line">        deleted:    deleteFile.js  <span class="comment"># 被删除的文件</span></span><br><span class="line"></span><br><span class="line">Untracked files:  <span class="comment"># 新增的文件</span></span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to include <span class="keyword">in</span> what will be committed)</span><br><span class="line">        new.js</span><br><span class="line"></span><br><span class="line">no changes added to commit (use <span class="string">&quot;git add&quot;</span> and/or <span class="string">&quot;git commit -a&quot;</span>) <span class="comment"># 暂存区未提交到分支的文件列表，此处表示没有</span></span><br></pre></td></tr></table></figure>
+<h4 id="git-add"><a href="#git-add" class="headerlink" title="git add"></a>git add</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add &lt;path-file&gt; <span class="comment"># 提交单个文件变更，&lt;path-file&gt;需要输入文件路径，可用git status查看</span></span><br><span class="line">$ git add -A <span class="comment"># 提交所有有变更的文件</span></span><br></pre></td></tr></table></figure>
+<p>提交之后文件状态由unstage变为staged。</p>
+<h4 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h4><p>建议采用最小提交原则，比如有两个bug需要修复，那么分别执行两次git commit，如果有两个功能点也一样，这样方便回溯。当然必须确保每次commit的功能点是完备的，代码可以正常运行，不要commi只完成了一半的工作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">&quot;content&quot;</span> <span class="comment"># 提交时携带”-m“参数可以添加本次变更的说明注释</span></span><br><span class="line">$ git commit --amend <span class="comment"># 进入默认vim编辑器,可以修改注释</span></span><br><span class="line">$ git commit -m <span class="string">&quot;content&quot;</span> --no-verify <span class="comment"># 忽略lint告警，强制提交</span></span><br></pre></td></tr></table></figure>
+<p>git commit后会生成一个版本号。</p>
+<h4 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a>git push</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin &lt;branch&gt; </span><br><span class="line">$ git push origin --delete &lt;branch&gt; <span class="comment"># 删除远程分支</span></span><br></pre></td></tr></table></figure>
+<p>至此实现将本地变更推送到远程仓库。</p>
+<h2 id="三、回退操作"><a href="#三、回退操作" class="headerlink" title="三、回退操作"></a>三、回退操作</h2><p>在实际工作中，因为误操作等原因，我们需要回退已提交的内容，根据文件所处的不同阶段可以采用下列操作。</p>
+<h4 id="git-restore"><a href="#git-restore" class="headerlink" title="git restore"></a>git restore</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git restore &lt;path-file&gt; <span class="comment"># 放弃工作区变更，变成未保存状态</span></span><br><span class="line">$ git restore --staged &lt;path-file&gt; <span class="comment"># 文件git add后的回退操作，将文件重新变为unstage状态，保留本地修改</span></span><br></pre></td></tr></table></figure>
+<h4 id="git-clean"><a href="#git-clean" class="headerlink" title="git clean"></a>git clean</h4><p>快捷删除新增文件（untracked files）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git clean -f  <span class="comment"># 删除所有untracked files</span></span><br><span class="line">$ git clean -fd <span class="comment"># 删除所有untracked files及目录</span></span><br><span class="line">$ git clean -nfd <span class="comment"># 查看将要被删除的文件列表</span></span><br></pre></td></tr></table></figure>
+<h4 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h4><p>如果变更已经commit，甚至push到远程仓库，此时要用到<code>git reset</code>操作执行版本回退。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git reset --soft HEAD^ <span class="comment"># 修改版本库，保留暂存区和工作区。</span></span><br><span class="line">$ git reset --hard HEAD^ <span class="comment"># 将HEAD指针回退到某个版本，之后的版本内容全部删除。</span></span><br><span class="line">$ git push -f <span class="comment"># 将回退操作推送到远程仓库</span></span><br><span class="line"><span class="comment"># git reset的原理就是更改HEAD指针的指向</span></span><br><span class="line"><span class="comment"># HEAD后的参数表示需要回退的版本，有三种表示方法：^表示上个版本；HEAD~2表示上上个版本；也可改成每个commit自动生成的hash值。</span></span><br></pre></td></tr></table></figure>
+<h4 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert"></a>git revert</h4><p>如果存在1、2、3这三个版本，需要撤销版本2并保留版本3的提交，可以用<code>git revert</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git revert -n [版本<span class="built_in">hash</span>值] </span><br></pre></td></tr></table></figure>
+<p>此时会生成新的版本4提交，而不会把版本2的提交删除。</p>
+<h4 id="git-merge-–abort"><a href="#git-merge-–abort" class="headerlink" title="git merge –abort"></a>git merge –abort</h4><p>撤销合并分支操作。</p>
+<h2 id="四、分支管理"><a href="#四、分支管理" class="headerlink" title="四、分支管理"></a>四、分支管理</h2><p>实际开发中，我们一般不会直接在master分支上提交修改，而是根据产品规划版本创建版本的开发分支。待分支开发完成，测试通过后，上线前再合并到master。<br>因此涉及分支的创建、切换、合并。</p>
+<h4 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h4><p>对于多人协作项目，该命令主要有两种使用场景：</p>
+<ol>
+<li>初次同步远程分支的内容。</li>
+<li>在每次修改代码前，同步远程分支的内容，以免本地提交时与远程文件发生冲突。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin &lt;branch&gt; <span class="comment"># branch代表分支名称</span></span><br></pre></td></tr></table></figure>
+<h4 id="git-branch"><a href="#git-branch" class="headerlink" title="git branch"></a>git branch</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git branch <span class="comment"># 查看本地分支列表</span></span><br><span class="line">$ git branch -a <span class="comment"># 查看远程分支列表</span></span><br><span class="line">$ git branch &lt;branch&gt; <span class="comment"># 新建分支</span></span><br><span class="line">$ git branch -d &lt;branch&gt; <span class="comment"># 删除指定分支，需要切换到非删除分支状态下才能执行</span></span><br><span class="line">$ git branch -D &lt;branch&gt; <span class="comment"># 强制删除指定分支。如果该分支有修改内容并且未做合并，此时-d无法成功执行，需要改成-D强制操作。</span></span><br></pre></td></tr></table></figure>
+<h4 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout &lt;branch&gt; <span class="comment"># 切换当前所在分支。切换时需要注意当前分支没有未提交的变更，否则无法执行。</span></span><br><span class="line">$ git checkout -b &lt;branch&gt; <span class="comment"># 新建并且切换到此分支</span></span><br><span class="line">$ git checkout . <span class="comment"># 放弃工作区所有变更（未git add）</span></span><br></pre></td></tr></table></figure>
+<h4 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h4><p>假设我们需要把dev分支的内容合并到master，需要确保当前工作区在master，再执行<code>git merge dev</code>。此时dev分支commit记录也会合并到master。</p>
+<blockquote>
+<p>git merge –abort可撤销合并操作</p>
+</blockquote>
+<h4 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a>git stash</h4><p>在开发中可能遇到这样的场景：正在dev分支上进行开发，但是发现了一个bug需要紧急修复上线，而dev分支上的内容还无法commit，这时就可以用到git stash的暂存功能。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git stash <span class="comment"># 将当前修改暂时保存，工作区回到上一个commit</span></span><br><span class="line">$ git stash save &lt;message&gt; <span class="comment"># 添加暂存注释</span></span><br><span class="line">$ git stash list <span class="comment"># 查看当前stash列表</span></span><br><span class="line">$ git stash pop  <span class="comment"># 释放git stash栈中最后一个版本到工作区</span></span><br><span class="line">$ git stash apply stash@&#123;0&#125; <span class="comment">#  释放指定的保存版本内容到工作区</span></span><br><span class="line"><span class="comment"># 版本一旦被释放，则会从list中删除。</span></span><br><span class="line">$ git stash clear <span class="comment"># 清空列表</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://suikaa.github.io/2021/03/29/git-commands/" title="git常用命令总结" target="_blank" rel="external">https://suikaa.github.io/2021/03/29/git-commands/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+<!-- 
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/suikaa" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/suikaa" target="_blank"><span class="text-dark">Lucky</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+ -->
+
+    </div>
+  </article>
+  <!-- 
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+   -->
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/03/17/build-personal-blog-one/" title="用github和hexo快速搭建个人博客"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
