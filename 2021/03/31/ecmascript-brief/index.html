@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>ECMAScript概述 | Lucky&#39;s blog</title>
+  <meta name="description" content="1. ECMA-262ECMA是一个致力于信息技术标准化的国际组织。ECMA-262，即ECMAScript规范，是它应用最广的规范之一。 ECMA-262第一版诞生于1997年6月，全文110页。到2020年6月发布的第11版，全文已经超过了800页。官方提供了第11版的在线查阅地址、各个ECMAScript版本的PDF下载链接，以及实时更新的最新草案。 下面是ECMA-262的发布历程：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ECMAScript概述">
+<meta property="og:url" content="https://suikaa.github.io/2021/03/31/ecmascript-brief/index.html">
+<meta property="og:site_name" content="Lucky&#39;s blog">
+<meta property="og:description" content="1. ECMA-262ECMA是一个致力于信息技术标准化的国际组织。ECMA-262，即ECMAScript规范，是它应用最广的规范之一。 ECMA-262第一版诞生于1997年6月，全文110页。到2020年6月发布的第11版，全文已经超过了800页。官方提供了第11版的在线查阅地址、各个ECMAScript版本的PDF下载链接，以及实时更新的最新草案。 下面是ECMA-262的发布历程：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-31T09:01:25.516Z">
+<meta property="article:modified_time" content="2021-04-06T06:25:32.079Z">
+<meta property="article:author" content="Liu Chang">
+<meta property="article:tag" content="ECMAScript">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://suikaa.github.io/2021/03/31/ecmascript-brief/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Lucky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/suikaa" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Lucky</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ECMAScript/" style="font-size: 14px;">ECMAScript</a> <a href="/tags/GitHub/" style="font-size: 14px;">GitHub</a> <a href="/tags/git/" style="font-size: 13px;">git</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-ecmascript-brief" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ECMAScript概述
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/03/31/ecmascript-brief/" class="article-date">
+	  <time datetime="2021-03-31T09:01:25.516Z" itemprop="datePublished">2021-03-31</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/ECMAScript/" rel="tag">ECMAScript</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <!-- <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/03/31/ecmascript-brief/#comments" class="article-comment-link">评论</a></span> -->
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.1k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="1-ECMA-262"><a href="#1-ECMA-262" class="headerlink" title="1. ECMA-262"></a>1. ECMA-262</h2><p><a target="_blank" rel="noopener" href="https://www.ecma-international.org/">ECMA</a>是一个致力于信息技术标准化的国际组织。ECMA-262，即ECMAScript规范，是它应用最广的规范之一。</p>
+<p>ECMA-262第一版诞生于1997年6月，全文110页。到2020年6月发布的第11版，全文已经超过了800页。官方提供了第11版的<a target="_blank" rel="noopener" href="https://262.ecma-international.org/11.0/#sec-intro">在线查阅地址</a>、各个ECMAScript版本的<a target="_blank" rel="noopener" href="https://www.ecma-international.org/publications-and-standards/standards/ecma-262/">PDF下载链接</a>，以及实时更新的<a target="_blank" rel="noopener" href="https://tc39.es/ecma262/#sec-intro">最新草案</a>。</p>
+<p>下面是ECMA-262的发布历程：</p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>发布时间</th>
+<th>主要的新特性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1997年6月</td>
+<td>数据类型、符号约定、源文本、词法、类型转换、执行上下文、表达式、声明、函数、进程、内置对象、Errors</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1998年8月</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1999年12月</td>
+<td>Unicode字符集、正则表达式直接量、switch、throw、try、 RegExp对象、Error对象等</td>
+</tr>
+<tr>
+<td>4</td>
+<td>未公开发布</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>2009年12月</td>
+<td>JSON语法和JSON对象、严格模式、debugger语句等</td>
+</tr>
+<tr>
+<td>5.1</td>
+<td>2011年6月</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>2015年6月</td>
+<td>let和const、延展操作符、解构赋值类、模块化、箭头函数、Promise等</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2016年6月</td>
+<td>Array的includes方法、指数运算符<code>**</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>2017年6月</td>
+<td>async/await、SharedArrayBuffer对象、Atomics对象等</td>
+</tr>
+<tr>
+<td>9</td>
+<td>2018年6月</td>
+<td>异步迭代、正则表达式扩展、Rest参数语法等</td>
+</tr>
+<tr>
+<td>10</td>
+<td>2019年6月</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>2020年6月</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>ECMAScript6（简称ES6）相比上一个大版本ES5相隔近6年，增加包括Class、Promise在内的不少重要特性，具体可查阅阮一峰的<a target="_blank" rel="noopener" href="https://es6.ruanyifeng.com/#README">ES6入门教程</a>。自ES6之后，ECMAScript开始稳定于每年6月发布一个新版本，每个版本的新特性可参考<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903811622912014#heading-26">ES6、ES7、ES8、ES9、ES10新特性一览</a>。</p>
+<p>在web开发中，ES新特性的落地需要浏览器的支持，因此在使用新特性时需要注意不同浏览器的兼容问题。</p>
+<h2 id="2-ECMAScript2020"><a href="#2-ECMAScript2020" class="headerlink" title="2. ECMAScript2020"></a>2. ECMAScript2020</h2><p>ECMAScript2020全文包括27个章节，详情如下：</p>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>英文名</th>
+<th>中文翻译</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Scope</td>
+<td>本文范围</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Conformance</td>
+<td>一致性</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Normative References</td>
+<td>引用资料</td>
+<td>ISO/IEC 10646、ECMA-402(API规范)、ECMA-404(JSON)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Overview</td>
+<td>总览</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Notational Conventions</td>
+<td>符号约定</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>ECMAScript Data Types and Values</td>
+<td>ECMAScript数据类型与值</td>
+<td>七种基本类型与Object引用类型</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Abstract Operations</td>
+<td>抽象操作</td>
+<td>类型转换</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Executable Code and Execution Contexts</td>
+<td>可执行代码与执行上下文</td>
+<td>词法环境、作用域</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Ordinary and Exotic Objects Behaviours</td>
+<td>普通和非常规对象行为</td>
+<td>普通对象的内置方法与slot、函数对象、内置函数对象</td>
+</tr>
+<tr>
+<td>10</td>
+<td>ECMAScript Language: Source Code</td>
+<td>ECMAScript语言：源代码</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>ECMAScript Language: Lexical Grammar</td>
+<td>ECMAScript语言：词法语法</td>
+<td>注释、关键字、直接量等</td>
+</tr>
+<tr>
+<td>12</td>
+<td>ECMAScript Language: Expressions</td>
+<td>ECMAScript语言：表达式</td>
+<td>各种表达式与操作符说明</td>
+</tr>
+<tr>
+<td>13</td>
+<td>ECMAScript Language: Statements and Declarations</td>
+<td>ECMAScript语言：语句与声明</td>
+<td>if、continue、break、return、with、switch、throw、try、debugger</td>
+</tr>
+<tr>
+<td>14</td>
+<td>ECMAScript Language: Functions and Classes</td>
+<td>ECMAScript语言：函数与类</td>
+<td>箭头函数、方法、Generator、Class、异步函数</td>
+</tr>
+<tr>
+<td>15</td>
+<td>ECMAScript Language: Scripts and Modules</td>
+<td>ECMAScript语言：脚本与模块</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>Error Handling and Language Extensions</td>
+<td>错误处理与语言扩展</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>ECMAScript Standard Built-in Objects</td>
+<td>ECMAScript标准内置对象</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>The Global Object</td>
+<td>全局对象</td>
+<td>全局对象的值、函数、构造属性及其他</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Fundamental Objects</td>
+<td>基础的对象</td>
+<td>狭义对象、Function对象、Boolean对象、Symbol对象、Error对象</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Numbers and Dates</td>
+<td>数值与日期</td>
+<td>Number对象、BigInt对象、Math对象、Date对象</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Text Processing</td>
+<td>文本处理</td>
+<td>String对象、RegExp对象</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Indexed Collections</td>
+<td>索引集合</td>
+<td>Array对象、TypedArray对象</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Keyed Collections</td>
+<td>键集合</td>
+<td>Map对象、Set对象、WeakMap对象、WeakSet对象</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Structured Data</td>
+<td>结构型数据</td>
+<td>ArrayBuffer对象、SharedArrayBuffer对象、DataView对象、Atomics对象、JSON对象</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Control Abstraction Objects</td>
+<td>控制抽象对象</td>
+<td>迭代、GeneratorFunction对象、AsyncGeneratorFunction对象、Generator对象、AsyncGenerator对象、Promise对象、AsyncFunction对象</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Reflection</td>
+<td>反射</td>
+<td>Reflect对象、Proxy对象</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Memory Model</td>
+<td>内存模型</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>除了1-4章，剩下的章节组织结构如下（见4.4章）：</p>
+<ol>
+<li>第 5 章定义了贯穿整个规范的符号约定</li>
+<li>第 6-9 章定义了ECMAScript进程操作的执行环境</li>
+<li>第 10-16 章定义了具体的ECMAScript进程语言，包括它所有语言特征的句法编码与执行语义。</li>
+<li>第 17-26 章定义了ECMAScript标准库，包括所有标准对象的定义，一旦ECMAScript进程开始执行，这些对象就是可用的。</li>
+<li>第 27 章定义了支持访问<code>SharedArrayBuffer</code>内存的内存一致性模型，以及原子对象的方法。</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://suikaa.github.io/2021/03/31/ecmascript-brief/" title="ECMAScript概述" target="_blank" rel="external">https://suikaa.github.io/2021/03/31/ecmascript-brief/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+<!-- 
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/suikaa" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/suikaa" target="_blank"><span class="text-dark">Lucky</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+ -->
+
+    </div>
+  </article>
+  <!-- 
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+   -->
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/04/02/ecmascript-object/" title="ECMAScript中的object（1）广义的对象"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/03/29/git-commands/" title="git常用命令总结"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>ECMAScript中的object（1）广义的对象 | Lucky&#39;s blog</title>
+  <meta name="description" content="1. 面向对象的语言ECMAScript是基于对象的：基础语言与环境都由对象提供，ECMAScript程序就是交流对象的集群。在ECMAScript中，对象是零或多个属性的集合（set），属性是其他对象、原始值、以及函数的容器。每个属性都有一些特性来决定属性的用法。例如，当一个的属性的Writable特性设置为false时，任何试图给这个属性赋值的操作都将失败。 2. 引用类型：ObjectECM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ECMAScript中的object（1）广义的对象">
+<meta property="og:url" content="https://suikaa.github.io/2021/04/02/ecmascript-object/index.html">
+<meta property="og:site_name" content="Lucky&#39;s blog">
+<meta property="og:description" content="1. 面向对象的语言ECMAScript是基于对象的：基础语言与环境都由对象提供，ECMAScript程序就是交流对象的集群。在ECMAScript中，对象是零或多个属性的集合（set），属性是其他对象、原始值、以及函数的容器。每个属性都有一些特性来决定属性的用法。例如，当一个的属性的Writable特性设置为false时，任何试图给这个属性赋值的操作都将失败。 2. 引用类型：ObjectECM">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-02T08:34:44.278Z">
+<meta property="article:modified_time" content="2021-04-07T08:39:54.192Z">
+<meta property="article:author" content="Liu Chang">
+<meta property="article:tag" content="ECMAScript">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://suikaa.github.io/2021/04/02/ecmascript-object/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Lucky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/suikaa" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Lucky</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ECMAScript/" style="font-size: 14px;">ECMAScript</a> <a href="/tags/GitHub/" style="font-size: 14px;">GitHub</a> <a href="/tags/git/" style="font-size: 13px;">git</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-ecmascript-object" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ECMAScript中的object（1）广义的对象
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/04/02/ecmascript-object/" class="article-date">
+	  <time datetime="2021-04-02T08:34:44.278Z" itemprop="datePublished">2021-04-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/ECMAScript/" rel="tag">ECMAScript</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <!-- <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/04/02/ecmascript-object/#comments" class="article-comment-link">评论</a></span> -->
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.5k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="1-面向对象的语言"><a href="#1-面向对象的语言" class="headerlink" title="1. 面向对象的语言"></a>1. 面向对象的语言</h2><p>ECMAScript是基于对象的：基础语言与环境都由对象提供，ECMAScript程序就是交流对象的集群。在ECMAScript中，对象是零或多个属性的集合（set），属性是其他对象、原始值、以及函数的容器。每个属性都有一些特性来决定属性的用法。例如，当一个的属性的<code>Writable</code>特性设置为false时，任何试图给这个属性赋值的操作都将失败。</p>
+<h2 id="2-引用类型：Object"><a href="#2-引用类型：Object" class="headerlink" title="2. 引用类型：Object"></a>2. 引用类型：Object</h2><p>ECMAScript2020定义的语言类型有八种，其中七种为原始类型（<code>Primitive Type</code>），又称基本类型，包括：Undefined, Null, Boolean, String, Symbol, Number, BigInt。除了原始类型，其他都属于引用类型（<code>Reference Type</code>）：Object。</p>
+<h4 id="2-1-对象的属性"><a href="#2-1-对象的属性" class="headerlink" title="2.1. 对象的属性"></a>2.1. 对象的属性</h4><p>上文提到，对象是属性的集合。属性由名称(key)、值（value）和一组特性组成。</p>
+<ul>
+<li>key可以是String或Symbol类型。</li>
+<li>有一种特殊的类数组对象的key是整数Number类型，只能用方括号访问。</li>
+<li>可以用Object内置方法<code>Object.getOwnPropertyDescriptor(O, P)</code>查看特性值。</li>
+</ul>
+<h4 id="2-2-数据属性和存取器属性"><a href="#2-2-数据属性和存取器属性" class="headerlink" title="2.2. 数据属性和存取器属性"></a>2.2. 数据属性和存取器属性</h4><p>属性又分为数据属性和存取器属性。</p>
+<ul>
+<li>数据属性(<code>data property</code>)的值可以是ECMAScript任意语言类型的值，有4个特性：Value、Writable、Enumerable、Configurable。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person = &#123;</span><br><span class="line">  name: <span class="string">&#x27;zhangsan&#x27;</span>, <span class="comment">// 拥有name属性的person对象</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> attributes = <span class="built_in">Object</span>.getOwnPropertyDescriptor(person, <span class="string">&#x27;name&#x27;</span>)</span><br><span class="line"><span class="comment">// attributes打印结果：</span></span><br><span class="line">&#123;</span><br><span class="line">    value: <span class="string">&quot;zhangsan&quot;</span>, <span class="comment">// 属性值</span></span><br><span class="line">    writable: <span class="literal">true</span>, <span class="comment">// 为false时，不能修改name属性的[[Value]]</span></span><br><span class="line">    enumerable: <span class="literal">true</span>, <span class="comment">// 为true时，name可以用for-in列举</span></span><br><span class="line">    configurable: <span class="literal">true</span>, <span class="comment">// 为false时，不能删除name属性、或把属性变为存取器属性、或改变name的特性，或者把[[Writable]]变为false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>存取器属性(<code>accessor property</code>)的值是两个方法：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get">getter</a>和<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set">setter</a>，有4个特性：Get、Set、Enumerable、Configurable。</li>
+</ul>
+<h2 id="3-普通对象和怪异对象"><a href="#3-普通对象和怪异对象" class="headerlink" title="3. 普通对象和怪异对象"></a>3. 普通对象和怪异对象</h2><h4 id="3-1-普通对象"><a href="#3-1-普通对象" class="headerlink" title="3.1. 普通对象"></a>3.1. 普通对象</h4><ol>
+<li><p>所有的普通对象都有指定的<a target="_blank" rel="noopener" href="https://262.ecma-international.org/11.0/#sec-object-internal-methods-and-internal-slots">内部方法</a>（见ECMAScript2020-6.1.7.2 table 6）。这些内部方法不属于ECMAScript语言本身，而是用来描述语言的内部执行逻辑，在ECMAScript中用双中括号[[]]来表示。</p>
+</li>
+<li><p>拥有[[Call]]内部方法的对象称为函数对象（<code>function object</code>）。函数用函数名+小括号来调用，如<code>functionName()</code>。</p>
+</li>
+<li><p>拥有[[Construct]]内部方法的对象称为构造器（<code>constructor</code>）。支持[[Construct]]的对象也必然支持[[Call]]，意味着构造器必然是一个函数对象，因此构造器又称构造函数。构造器都有一个叫做<code>prototype</code>的属性，其中定义了可以被其实例继承的属性和方法。用new操作符可以创建构造器的实例对象，如<code>new Date()</code>创建了一个新的Date对象。是否可以像函数那样调用构造器——即不加new操作符——取决于构造器本身，比如<code>Date()</code>会返回当前日期和时间的字符串表达式，而非对象。</p>
+</li>
+</ol>
+<h4 id="3-2-怪异对象"><a href="#3-2-怪异对象" class="headerlink" title="3.2. 怪异对象"></a>3.2. 怪异对象</h4><p>除了上述普通对象，其他都是怪异对象（<code>exotic object</code>）：</p>
+<ul>
+<li>Bound Function Exotice Objects</li>
+<li>Array Exotic Objects</li>
+<li>String Exotic Objects</li>
+<li>Arguments Exotic Objects</li>
+<li>Integer-Indexed Exotic Objects</li>
+<li>Module Namespace Exotic Objects</li>
+<li>Immutable Prototype Exotic Objects</li>
+</ul>
+<h2 id="4-内置对象-amp-全局对象"><a href="#4-内置对象-amp-全局对象" class="headerlink" title="4. 内置对象&amp;全局对象"></a>4. 内置对象&amp;全局对象</h2><p>内置对象（<code>built-in objects</code>）又称标准库，一旦ECMAScript脚本或模块开始执行，它们就可以直接使用。其中，全局对象是执行程序全局环境的一部分，其他的内置对象要么是全局对象的初始属性，要么是内置对象的属性。</p>
+<p>全局对象（<code>global object</code>）具有以下特征：</p>
+<ul>
+<li>在进入执行上下文之前已经被创建</li>
+<li>没有[[Construct]]内部方法，不能用new操作符作为构造器使用</li>
+<li>没有[[Call]]内部方法，不能作为函数调用</li>
+<li>具有[[Prototype]]内部slot，其值由宿主环境决定（host-defined）</li>
+<li>除了本规范定义的属性外，可能还有宿主环境定义的属性，可能包括属性值是全局对象本身的属性。</li>
+</ul>
+<h4 id="4-1-全局对象的value属性"><a href="#4-1-全局对象的value属性" class="headerlink" title="4.1. 全局对象的value属性"></a>4.1. 全局对象的value属性</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>[[Writable]]</th>
+<th>[[Enumerable]]</th>
+<th>[[Configurable]]</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>globalThis</td>
+<td>true</td>
+<td>false</td>
+<td>true</td>
+<td>初始值是作用域</td>
+</tr>
+<tr>
+<td>Infinity</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td>NaN</td>
+<td>fasle</td>
+<td>false</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td>undefined</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="4-2-全局对象的函数属性"><a href="#4-2-全局对象的函数属性" class="headerlink" title="4.2. 全局对象的函数属性"></a>4.2. 全局对象的函数属性</h4><table>
+<thead>
+<tr>
+<th>函数语法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>eval(string)</td>
+<td>将传入的字符串当做代码执行，并返回执行结果。<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/eval">MDN示例</a></td>
+</tr>
+<tr>
+<td>ifFinite(testValue)</td>
+<td>判断传入参数（testValue）是否为有限数字。1.传入BigInt类型会报错；2.会先将参数进行类型转换，如果转换后的不是Number类型，或者是Infinity、NaN、-Infinity，则返回false，否则返回true</td>
+</tr>
+<tr>
+<td>isNaN(testValue)</td>
+<td>如果传入参数为NaN则返回值为true；否则为false</td>
+</tr>
+<tr>
+<td>parseFloat(string)</td>
+<td>将传入参数解析成浮点数。如果参数不能被转换成数值，则会返回NaN。<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/parseFloat">MDN示例</a></td>
+</tr>
+<tr>
+<td>parseInt(string, radix)</td>
+<td>解析一个字符串并返回指定基数的十进制整数，radix是2-36之间的整数，表示被解析字符串的基数</td>
+</tr>
+<tr>
+<td>decodeURI</td>
+<td>解码由encodeURI创建或其它流程得到的统一资源标识符（URI）</td>
+</tr>
+<tr>
+<td>decodeURIComponent</td>
+<td></td>
+</tr>
+<tr>
+<td>encodeURI(URI)</td>
+<td>将特定字符的每个实例替换为一个、两个、三或四转义序列来对统一资源标识符(URI)进行编码，返回新字符串</td>
+</tr>
+<tr>
+<td>encodeURIComponent(URI)</td>
+<td>用途和encodeURI类似，但encodeURIComponent会对【;,/?:@&amp;=+$#】这些符号也进行编码。<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent">MDN示例</a></td>
+</tr>
+</tbody></table>
+<h4 id="4-3-全局对象的构造器属性"><a href="#4-3-全局对象的构造器属性" class="headerlink" title="4.3. 全局对象的构造器属性"></a>4.3. 全局对象的构造器属性</h4><p>ECMAScript2020中，全局对象的构造器属性达39个。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Boolean</td>
+<td>BigInt</td>
+<td>Number</td>
+<td>String</td>
+<td>Symbol</td>
+<td>Object</td>
+<td>Function</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>DateView</td>
+<td>Promise</td>
+<td>Proxy</td>
+<td>RegExp</td>
+<td>Map</td>
+<td>Set</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>BigInt64Array</td>
+<td>BigUint64Array</td>
+<td>Float32Array</td>
+<td>Float64Array</td>
+<td>Int8Array</td>
+<td>Int16Array</td>
+</tr>
+<tr>
+<td>Int32Array</td>
+<td>Unit8Array</td>
+<td>Unit8ClampedArray</td>
+<td>Unit16Array</td>
+<td>Unit32Array</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Error</td>
+<td>EvalError</td>
+<td>ReferenceError</td>
+<td>RangeError</td>
+<td>SyntaxError</td>
+<td>TypeError</td>
+<td>URIError</td>
+</tr>
+<tr>
+<td>ArrayBuffer</td>
+<td>SharedArrayBuffer</td>
+<td>FinalizationRegistry</td>
+<td>WeakMap</td>
+<td>WeakSet</td>
+<td>WeakRef</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="4-4-全局对象的其他属性"><a href="#4-4-全局对象的其他属性" class="headerlink" title="4.4. 全局对象的其他属性"></a>4.4. 全局对象的其他属性</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JSON</td>
+<td>两个方法：JSON.stringify()、JSON.parse()。<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON">MDN示例</a></td>
+</tr>
+<tr>
+<td>Math</td>
+<td>拥有一些数学常数属性和数学函数方法。<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math">查看属性和方法</a></td>
+</tr>
+<tr>
+<td>Reflect</td>
+<td>提供拦截JavaScript操作的方法。<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect">查看方法</a></td>
+</tr>
+<tr>
+<td>Atomics</td>
+<td>提供了一组静态方法对SharedArrayBuffer和ArrayBuffer对象进行原子操作。<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Atomics">查看说明</a></td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://suikaa.github.io/2021/04/02/ecmascript-object/" title="ECMAScript中的object（1）广义的对象" target="_blank" rel="external">https://suikaa.github.io/2021/04/02/ecmascript-object/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+<!-- 
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/suikaa" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/suikaa" target="_blank"><span class="text-dark">Lucky</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+ -->
+
+    </div>
+  </article>
+  <!-- 
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+   -->
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/03/31/ecmascript-brief/" title="ECMAScript概述"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
